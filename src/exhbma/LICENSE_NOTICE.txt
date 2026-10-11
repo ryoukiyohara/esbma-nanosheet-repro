@@ -1,4 +1,5 @@
 exhbma 0.1.12 -- Exhaustive Search with Bayesian Model Averaging
-Author: Koki Obinata (koki.obi.321@gmail.com); home page https://github.com/okada-lab/exhbma
-Licence: MIT (as declared in the package metadata on PyPI). The full MIT licence text and
-copyright line of the upstream repository apply to the files in this directory.
+Author: Koki Obinata (koki.obi.321@gmail.com); https://github.com/okada-lab/exhbma
+The files in this directory are distributed under the MIT License of the upstream
+repository; its full text and copyright notice are in LICENSE in this directory.
+They are not covered by the Apache License 2.0 of the rest of this package.

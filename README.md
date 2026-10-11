@@ -4,9 +4,17 @@ Code and data that reproduce the analyses and figures of the paper on exhaustive
 averaging (ES-BMA) for the exfoliation of layered materials into nanosheets (Nanoscale Advances), intended
 for the Data Availability Statement (GitHub / Zenodo).
 
-> **Before publishing:** the files in `data/raw/` are the experimental data of the 80 exfoliation samples (yield)
-> and of the size / size-distribution data sets, kept exactly as used in the analyses. The authors must confirm
-> that they may publish these data (and choose a licence for the package).
+## Licence
+
+This package is released as version v1.0 (the state at the time of submission of the paper).
+
+| Part | Licence | File |
+|---|---|---|
+| Our code: `src/esbma_repro/`, `scripts/`, the notebooks, `Dockerfile`, `run_nb.sh` | Apache License 2.0 | [`LICENSE`](LICENSE) |
+| Data: `data/raw/` (experimental data) and `data/intermediate/` (cached results) | CC BY-NC 4.0 | [`data/LICENSE`](data/LICENSE) |
+| Vendored ES-BMA core `src/exhbma/` (exhbma 0.1.12, https://github.com/okada-lab/exhbma) | MIT, Copyright (c) 2022-2026 Koki Obinata (unchanged upstream licence) | [`src/exhbma/LICENSE`](src/exhbma/LICENSE) |
+
+If you use the data or the code, please cite the paper.
 
 ## Unified ES-BMA setting
 
