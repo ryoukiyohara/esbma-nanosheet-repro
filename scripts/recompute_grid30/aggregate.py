@@ -6,6 +6,10 @@ used by the notebook, and redraw Fig 8 (make_fig8.make_figure) and Fig 9.
 --install copies the two CSVs to data/intermediate/ (fig8_fig9_subsampling_trials.csv, fig9_mean_fp_pickles.csv),
 replacing the legacy 20-point-grid versions, so that the notebook shows the recomputed results. Only use it when all
 trials are complete (the script reports missing trials and refuses --install otherwise).
+
+Fig 9 Max / Min descriptor = highest / lowest ES-BMA posterior on the FULL data of each target (no subsampling, unified
+grid; esbma_repro.fig9.select_maxmin), as defined in the paper; the selection is asserted to be yield x32/x36,
+size x16/x30, size distribution x32/x41.
 """
 import argparse, glob, json, os, shutil, sys
 
@@ -20,12 +24,9 @@ STUDIES = {"fig8_exp31_yield": ("yield", range(30, 85, 5)), "fig9_size": ("size"
            "fig9_size_distribution": ("size_distribution", range(30, 95, 5))}
 TARGET_ROWS = {"fig8_exp31_yield": ["yield_exp31", "yield_katsuta"], "fig9_size": ["size"],
                "fig9_size_distribution": ["size_distribution"]}
-ORIG_MAXMIN = {"yield": ("x34", "x5"), "size": ("x4", "x21"), "size_distribution": ("x32", "x8")}
 
 ap = argparse.ArgumentParser(); ap.add_argument("--outdir", default=os.path.join(ROOT, "results", "recompute_grid30"))
 ap.add_argument("--install", action="store_true")
-ap.add_argument("--data-driven", action="store_true", help="plot the descriptors with the highest / lowest mean posterior at the "
-                "largest n instead of the descriptors of the published Fig 9 (yield x34/x5, size x4/x21, size distr. x32/x8)")
 a = ap.parse_args()
 rows, complete = [], True
 for study, (target, ns) in STUDIES.items():
@@ -62,25 +63,23 @@ if sorted(Y.n_dir.unique()) == list(range(30, 85, 5)) and (Y.groupby("n_dir").si
     plt.close(fig); print("Fig 8 written")
 else:
     print("Fig 8 skipped (yield trials incomplete)")
-plt.rcdefaults(); plt.rcParams.update({"font.family": ["Arial", "DejaVu Sans"]})
+plt.rcdefaults()
 
-# Fig 9: Max / Min descriptor = highest / lowest mean posterior at the largest n (as in the paper)
-fig, ax = plt.subplots(figsize=(12, 6))
-for tg, cmap in [("yield", "Blues"), ("size", "Greens"), ("size_distribution", "Reds")]:
+# Fig 9: Max / Min descriptor = highest / lowest ES-BMA posterior on the full data (no subsampling), unified grid
+from esbma_repro import fig9                          # noqa: E402
+MAXMIN = fig9.select_maxmin(os.path.join(ROOT, "data", "raw"))
+means = {}
+for tg in fig9.TARGETS:
     m = M[M.target == tg].set_index("n").drop(columns="target").dropna(axis=1, how="all")
+    cmax, cmin, fpf = MAXMIN[tg]
+    assert (cmax, cmin) == fig9.EXPECTED_MAXMIN[tg], (tg, cmax, cmin)
     if not len(m):
         continue
-    last = m.iloc[-1]; dmax, dmin = last.idxmax(), last.idxmin()
-    cmax, cmin = (dmax, dmin) if a.data_driven else ORIG_MAXMIN[tg]
-    print(f"{tg}: plotted Max {cmax} / Min {cmin} (highest / lowest at n = {m.index[-1]}: {dmax} {last[dmax]:.3f} / {dmin} {last[dmin]:.3f}); "
-          f"n where the plotted Max first exceeds 0.75: {next((n for n, v in m[cmax].items() if v > 0.75), None)}")
-    c = plt.get_cmap(cmap); lab = {"yield": "Yield", "size": "Size", "size_distribution": "Size Dist"}[tg]
-    ax.plot(m.index.to_numpy(), m[cmax].to_numpy(), "o-", color=c(0.8), label=f"{lab} (Max)")
-    ax.plot(m.index.to_numpy(), m[cmin].to_numpy(), "o-", color=c(0.45), label=f"{lab} (Min)")
-ax.axhline(0.75, color="red", ls="--"); ax.axhline(0.25, color="red", ls="--"); ax.set_ylim(0, 1)
-ax.set_yticks([0, .25, .5, .75, 1]); ax.set_xticks(np.arange(30, 125, 5))
-ax.set_xlabel("Number of sample data", fontsize=16); ax.set_ylabel("Probability", fontsize=16); ax.legend(ncol=3, fontsize=10)
-fig.tight_layout(); fig.savefig(os.path.join(a.outdir, "Fig9_mean_posterior_vs_n.png"), dpi=300); plt.close(fig)
+    means[tg] = m[[cmax, cmin]]
+    print(f"{tg}: Max {cmax} (full-data posterior {fpf[cmax]:.3f}) / Min {cmin} ({fpf[cmin]:.3f}); "
+          f"n where the Max curve first exceeds 0.75: {fig9.first_crossing(m[cmax])}")
+fig = fig9.make_figure(means, MAXMIN)
+fig.savefig(os.path.join(a.outdir, "Fig9_mean_posterior_vs_n.png"), dpi=300); plt.close(fig)
 print("Fig 9 written; CSVs in", a.outdir)
 if a.install:
     if not complete:

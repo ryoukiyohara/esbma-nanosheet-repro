@@ -86,6 +86,7 @@ src/esbma_repro/               analysis code, copied from the original scripts w
   subsample.py  sample-size study                       (notebook/experiment3/esbma_nanosheet.py)
   fig3.py       BFE-rank prediction plots               (notebook/experiment5/compare_model.py)
   make_fig8.py  paper drawing of Fig 8 (unchanged copy of make_fig8.py)
+  fig9.py       Fig 9: Max / Min selection from the full-data posteriors, drawing in the style of the paper
   data.py       data loading, descriptor names
 scripts/extraction/            how the cached files were made (from the original outputs / from the unified fits)
 scripts/verification/          equivalence test of the parallel ES-BMA driver; full recomputation of the old Fig 6
@@ -169,11 +170,19 @@ asserts that the three CVEs equal the DoS values), so Fig 3 and Fig 7 are direct
 | Fig 8 x13 median posterior, n = 30 → 80 | 0.66 → 0.97 (mean 0.64 → 0.91) | 0.63 → 0.97 (mean 0.64 → 0.93) |
 | Fig 8 x9 | stays ≈ 0.45 (mean 0.45 → 0.50) | stays ≈ 0.45 (median), mean 0.45 → 0.51 |
 | Fig 8 mean posteriors n = 30 / 45 / 60 | see legacy CSV | x2 0.60/0.70/0.82, x8 0.67/0.73/0.76, x13 0.64/0.78/0.89, x14 0.66/0.77/0.88 |
-| Fig 9 yield Max (x34) > 0.75 first at n | 50 | **45** (0.95 at n = 80, was 0.92) |
-| Fig 9 size distribution Max (x32) > 0.75 at n | 65 | 65 (0.84 at n = 90) |
-| Fig 9 size Max (x4) > 0.75 at n | 80 (with the n = 85 run actually using 95 samples) | **65** (0.82 at n = 120) |
-| Fig 9 size: highest descriptor at n = 120 | x4 (0.81) | x16 0.830 ≈ x4 0.819 (x16 > 0.75 from n = 100) |
-| Fig 9 Min descriptors (x5, x21, x8) at the largest n | 0.34 / 0.38 / 0.38 | 0.34 / 0.37 / 0.38 |
+| Fig 9 Max / Min descriptors | yield x34 / x5, size x4 / x21, size distribution x32 / x8 | **yield x32 / x36, size x16 / x30, size distribution x32 / x41** (highest / lowest posterior on the full data, see below) |
+| Fig 9 yield Max > 0.75 first at n | 50 (x34) | **40** (x32; 0.93 at n = 80) |
+| Fig 9 size distribution Max > 0.75 first at n | 65 (x32) | 65 (x32; 0.84 at n = 90) |
+| Fig 9 size Max > 0.75 first at n | 80 (x4; with the n = 85 run actually using 95 samples) | **100** (x16; 0.83 at n = 120) |
+| Fig 9 Min descriptors at the largest n | 0.34 / 0.38 / 0.38 (x5, x21, x8) | 0.38 / 0.38 / 0.41 (x36, x30, x41) |
+
+Fig 9 Max / Min definition: Max = the descriptor with the highest ES-BMA posterior inclusion probability on the **full
+data set** of the target (no subsampling; unified setting: 30-point grid, log<sub>10</sub> σ from −2.5 to 2.5, exhbma
+standardisation), Min = the one with the lowest; the curves are the means over trials 0–29 at each n. Full-data
+posteriors: yield x32 0.995 / x36 0.273 (N = 80), size x16 0.920 / x30 0.323 (N = 122), size distribution x32 0.961 /
+x41 0.295 (N = 97). The selection is made automatically (`esbma_repro.fig9.select_maxmin`) in the notebook and in
+`aggregate.py`, and asserted. The earlier figure used yield x34/x5, size x4/x21, size distribution x32/x8, which do not
+follow this definition.
 
 Note on Fig 6: the earlier synthetic study used its own BMA code (`bma_core.py`: grid logspace(-2, 1.5, 30), y standardised,
 intercept marginalised, single-descriptor models skipped) and `LassoCV` with 50 bootstraps; the unified version uses
@@ -203,14 +212,14 @@ average ≈ 80 during the run (≈ 9,900 %CPU over 122 Python processes; per-pro
 fit because of memory-bandwidth contention). Single-core time per trial: yield 10 s, size 43 s, size distribution 4.7 s,
 i.e. ≈ 8.3 CPU-h in total → ≈ 16–25 min with 32 workers.
 
-`aggregate.py` plots, by default, the Max/Min descriptors of the published Fig 9 (yield x34/x5, size x4/x21, size
-distribution x32/x8); `--data-driven` uses the descriptors with the highest/lowest mean posterior at the largest n.
+`aggregate.py` plots, for Fig 9, the descriptors with the highest / lowest ES-BMA posterior on the full data of each
+target (yield x32/x36, size x16/x30, size distribution x32/x41; selected automatically and asserted).
 
 ## Verification and run times
 
 * `RECOMPUTE = False`: executed end-to-end in the original Docker image on the analysis server and in a fresh `.venv`
   from `requirements.txt` on macOS (arm64); all printed checks match their expected values (table at the end of the
-  notebook, 52 checks). Whole notebook < 15 s.
+  notebook, 59 checks). Whole notebook < 1 min (≈ 30 s of it for the three full-data fits of Fig 9).
 * `ESBMA_RECOMPUTE=1 ESBMA_QUICK=1` on the server (fast evaluator): the unified fit reproduces the cached
   log-likelihoods to 3e-13 and the posteriors to 2e-14 (coefficients identical); Bolasso and the DoS are identical;
   Fig 6 #26 to 2e-14; the Fig 8/9 trial-0 checks to ≤ 1e-16.

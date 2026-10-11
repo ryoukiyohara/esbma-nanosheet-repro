@@ -49,9 +49,12 @@ Fig 7,"CVE rank of {x2,x8,x13,x14,x16}",64,64,True
 Fig 7,"BFE rank of {x2,x8,x13,x14,x16}",38,38,True
 Fig 8,x9: median posterior n = 30 -> n = 80,"(0.45, 0.45)","(0.45, 0.45)",True
 Fig 8,x13: median posterior n = 30 -> n = 80,"(0.63, 0.97)","(0.63, 0.97)",True
+Fig 9,yield: Max / Min descriptor (full-data posterior),"('x32', 'x36')","('x32', 'x36')",True
 Fig 9,yield: means reproduce fig9_mean_fp_pickles.csv,True,True,True
-Fig 9,yield: n at which the Max curve first exceeds 0.75,45,45,True
+Fig 9,yield: n at which the Max curve first exceeds 0.75,40,40,True
+Fig 9,size: Max / Min descriptor (full-data posterior),"('x16', 'x30')","('x16', 'x30')",True
 Fig 9,size: means reproduce fig9_mean_fp_pickles.csv,True,True,True
-Fig 9,size: n at which the Max curve first exceeds 0.75,65,65,True
+Fig 9,size: n at which the Max curve first exceeds 0.75,100,100,True
+Fig 9,size_distribution: Max / Min descriptor (full-data posterior),"('x32', 'x41')","('x32', 'x41')",True
 Fig 9,size_distribution: means reproduce fig9_mean_fp_pickles.csv,True,True,True
 Fig 9,size_distribution: n at which the Max curve first exceeds 0.75,65,65,True
