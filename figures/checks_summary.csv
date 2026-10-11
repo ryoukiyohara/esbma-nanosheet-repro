@@ -1,0 +1,57 @@
+item,quantity,reproduced,expected,match
+Fig 3,"variables in >= 50 of the top-100 models, all with the same sign","['x2', 'x8', 'x9', 'x11', 'x13', 'x14', 'x16']","['x2', 'x8', 'x9', 'x11', 'x13', 'x14', 'x16']",True
+Fig 3,variables in all 100 top models with the same sign,"['x8', 'x13', 'x14', 'x16']","['x8', 'x13', 'x14', 'x16']",True
+Fig 3,x2: number of top-100 models (all positive),99,99,True
+Fig 3,"CVE median / min / max, BFE ranks 1-100","(15.57, 15.02, 15.98)","(15.57, 15.02, 15.98)",True
+Fig 3,"CVE median / min / max, BFE ranks 59,951-60,050","(19.52, 17.63, 20.48)","(19.52, 17.63, 20.48)",True
+Fig 3,model at BFE rank 1,"['x2', 'x8', 'x9', 'x13', 'x14', 'x16']","['x2', 'x8', 'x9', 'x13', 'x14', 'x16']",True
+Fig 3,"CVE (5-fold, DoS protocol), BFE rank 1",15.297,15.297,True
+Fig 3,CVE rank of the BFE-rank-1 model,18,18,True
+Fig 3,model at BFE rank 100,"['x2', 'x4', 'x6', 'x8', 'x9', 'x11', 'x13', 'x14', 'x16']","['x2', 'x4', 'x6', 'x8', 'x9', 'x11', 'x13', 'x14', 'x16']",True
+Fig 3,"CVE (5-fold, DoS protocol), BFE rank 100",15.516,15.516,True
+Fig 3,CVE rank of the BFE-rank-100 model,78,78,True
+Fig 3,model at BFE rank 60000,"['x2', 'x5', 'x6', 'x10', 'x12', 'x15']","['x2', 'x5', 'x6', 'x10', 'x12', 'x15']",True
+Fig 3,"CVE (5-fold, DoS protocol), BFE rank 60000",20.076,20.076,True
+Fig 3,CVE rank of the BFE-rank-60000 model,61889,61889,True
+Fig 4,Bolasso features > 0.75,"['x2', 'x4', 'x8', 'x10', 'x11', 'x13', 'x14', 'x16']","['x2', 'x4', 'x8', 'x10', 'x11', 'x13', 'x14', 'x16']",True
+Fig 4,ES-BMA features > 0.75,"['x2', 'x8', 'x13', 'x14', 'x16']","['x2', 'x8', 'x13', 'x14', 'x16']",True
+Fig 4 text,mean Bolasso probability,0.684,0.68,True
+Fig 4 text,mean ES-BMA posterior,0.552,0.55,True
+Fig 4 text,median Bolasso probability,0.775,0.78,True
+Fig 4 text,median ES-BMA posterior,0.389,0.39,True
+Fig 5,"MAP (log10 s_eps, log10 s_w), N = 80","(1.12, 0.78)","(1.12, 0.78)",True
+Fig 5,"posterior sd of log10 s_eps, N = 80",0.04,0.04,True
+Fig 5,"posterior sd of log10 s_w, N = 80",0.15,0.15,True
+Fig S2,"MAP for N = 50, 60, 80","[(1.12, 0.78), (1.12, 0.78), (1.12, 0.78)]","[(1.12, 0.78), (1.12, 0.78), (1.12, 0.78)]",True
+Fig 6,Bolasso false positives per run (total),0.97,0.97,True
+Fig 6,"Bolasso FP per run, solvent descriptors",0.3,0.3,True
+Fig 6,"Bolasso FP per run, unrelated descriptors",0.67,0.67,True
+Fig 6,Bolasso runs with a false positive,19,19,True
+Fig 6,"Bolasso mean probability, solvent / unrelated","(0.26, 0.3)","(0.26, 0.3)",True
+Fig 6,ES-BMA false positives per run,0.03,0.03,True
+Fig 6,ES-BMA runs with a false positive,1,1,True
+Fig 6,"ES-BMA mean probability, solvent / unrelated","(0.06, 0.07)","(0.06, 0.07)",True
+Fig 6,"realisation #26, Bolasso > 0.75","{'x5': 0.94, 'x8': 1.0, 'x13': 0.77, 'x15': 0.96}","{'x5': 0.94, 'x8': 1.0, 'x13': 0.77, 'x15': 0.96}",True
+Fig 6,"realisation #26, ES-BMA max over x != x8",0.09,0.09,True
+Fig 7,lowest CVE,15.02,15.02,True
+Fig 7,features of lowest-CVE model,"['x2', 'x8', 'x10', 'x11', 'x13', 'x14', 'x16']","['x2', 'x8', 'x10', 'x11', 'x13', 'x14', 'x16']",True
+Fig 7,Bolasso distinct models,79,79,True
+Fig 7,Bolasso mean model size,10.9,10.9,True
+Fig 7,Bolasso best CVE rank,19,19,True
+Fig 7,Bolasso median CVE rank,1906,1906,True
+Fig 7,Bolasso models in CVE top 100,6,6,True
+Fig 7,CVE-opt Bolasso distinct models,67,67,True
+Fig 7,CVE-opt Bolasso models in CVE top 100,6,6,True
+Fig 7,ES-BMA top-100 models in CVE top 100,44,44,True
+Fig 7,CVE rank of the lowest-BFE model,18,18,True
+Fig 7,BFE rank of the lowest-CVE model,3,3,True
+Fig 7,"CVE rank of {x2,x8,x13,x14,x16}",64,64,True
+Fig 7,"BFE rank of {x2,x8,x13,x14,x16}",38,38,True
+Fig 8,x9: median posterior n = 30 -> n = 80,"(0.45, 0.45)","(0.45, 0.45)",True
+Fig 8,x13: median posterior n = 30 -> n = 80,"(0.63, 0.97)","(0.63, 0.97)",True
+Fig 9,yield: means reproduce fig9_mean_fp_pickles.csv,True,True,True
+Fig 9,yield: n at which the Max curve first exceeds 0.75,45,45,True
+Fig 9,size: means reproduce fig9_mean_fp_pickles.csv,True,True,True
+Fig 9,size: n at which the Max curve first exceeds 0.75,65,65,True
+Fig 9,size_distribution: means reproduce fig9_mean_fp_pickles.csv,True,True,True
+Fig 9,size_distribution: n at which the Max curve first exceeds 0.75,65,65,True
