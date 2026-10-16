@@ -1,8 +1,9 @@
-# ES-BMA for nanosheet exfoliation – reproduction package
+# A Quantification Approach for Feature Selection Confidence and Data Requirements in Materials Informatics Using Bayesian Model Averaging – reproduction package
 
-Code and data that reproduce the analyses and figures of the paper on exhaustive-search Bayesian model
-averaging (ES-BMA) for the exfoliation of layered materials into nanosheets (Nanoscale Advances), intended
-for the Data Availability Statement (GitHub / Zenodo).
+Code and data that reproduce the analyses and figures (Figs. 3–9) of the paper "A Quantification Approach for
+Feature Selection Confidence and Data Requirements in Materials Informatics Using Bayesian Model Averaging"
+(Nanoscale Advances), which applies exhaustive-search Bayesian model averaging (ES-BMA) to the exfoliation of
+layered materials into nanosheets, intended for the Data Availability Statement (GitHub / Zenodo).
 
 ## Licence
 
